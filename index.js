@@ -50,7 +50,6 @@ app.get('/odata/flights', async (req, res) => {
     res.status(500).json({ error: err.toString() });
   }
 });
-
 app.get('/odata/$metadata', (req, res) => {
   res.type('application/xml');
   res.send(`
@@ -63,10 +62,10 @@ app.get('/odata/$metadata', (req, res) => {
           <PropertyRef Name="id" />
         </Key>
         <Property Name="id" Type="Edm.Int32" Nullable="false" />
-        <Property Name="flight_number" Type="Edm.String" />
-        <Property Name="departure" Type="Edm.String" />
-        <Property Name="arrival" Type="Edm.String" />
-        <Property Name="status" Type="Edm.String" />
+        <Property Name="flight_number" Type="Edm.String" Nullable="true" />
+        <Property Name="departure" Type="Edm.String" Nullable="true" />
+        <Property Name="arrival" Type="Edm.String" Nullable="true" />
+        <Property Name="status" Type="Edm.String" Nullable="true" />
       </EntityType>
       <EntityContainer Name="Container">
         <EntitySet Name="flights" EntityType="Default.flights" />
@@ -75,8 +74,4 @@ app.get('/odata/$metadata', (req, res) => {
   </edmx:DataServices>
 </edmx:Edmx>
 `);
-});
-
-app.listen(port, () => {
-  console.log(`OData server running at http://localhost:${port}/odata/flights`);
 });

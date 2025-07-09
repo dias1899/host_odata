@@ -78,5 +78,5 @@ app.get('/odata/$metadata', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(OData server running at http://localhost:${port}/odata/flights);
+  console.log(`OData server running at http://localhost:${port}/odata/flights`);
 });

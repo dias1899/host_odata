@@ -3,7 +3,12 @@ const { createClient } = require('@supabase/supabase-js');
 require('dotenv').config();
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;  // Render erfordert diesen Port, KEIN Fallback!
+
+if (!port) {
+  console.error("Missing PORT environment variable!");
+  process.exit(1);
+}
 
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
@@ -50,6 +55,7 @@ app.get('/odata/flights', async (req, res) => {
     res.status(500).json({ error: err.toString() });
   }
 });
+
 app.get('/odata/$metadata', (req, res) => {
   res.type('application/xml');
   res.send(`
@@ -74,4 +80,8 @@ app.get('/odata/$metadata', (req, res) => {
   </edmx:DataServices>
 </edmx:Edmx>
 `);
+});
+
+app.listen(port, () => {
+  console.log(`OData server running at http://localhost:${port}/odata/flights`);
 });

@@ -3,12 +3,7 @@ const { createClient } = require('@supabase/supabase-js');
 require('dotenv').config();
 
 const app = express();
-const port = process.env.PORT;  // Render erfordert diesen Port, KEIN Fallback!
-
-if (!port) {
-  console.error("Missing PORT environment variable!");
-  process.exit(1);
-}
+const port = process.env.PORT || 3000;  // ✅ Fallback für lokale Umgebung
 
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
@@ -83,5 +78,6 @@ app.get('/odata/$metadata', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`OData server running at http://localhost:${port}/odata/flights`);
+  console.log(`✅ OData server running at http://localhost:${port}/odata/flights`);
 });
+
